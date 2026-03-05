@@ -11,3 +11,8 @@
 - Root Directory: `backend`
 - Start command: `npm run start`
 - Run one-off: `npm run migrate`
+
+
+Railway note: backend start script now auto-runs migration (
+pm run migrate && node src/server.js).
+
