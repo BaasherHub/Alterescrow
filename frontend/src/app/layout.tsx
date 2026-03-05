@@ -2,6 +2,9 @@ import "./globals.css";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "AlterEscrow",
   description: "P2P escrow for USDT trades",
