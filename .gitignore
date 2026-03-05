@@ -1,0 +1,11 @@
+node_modules/
+artifacts/
+cache/
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+realtime/.env
+coverage/
+.DS_Store

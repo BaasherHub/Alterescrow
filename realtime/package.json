@@ -1,0 +1,9 @@
+{
+  "name": "alterescrow-realtime",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js"
+  }
+}

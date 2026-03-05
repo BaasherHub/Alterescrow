@@ -1,88 +1,55 @@
-# P2P Exchange - Smart Contracts
+# AlterEscrow Monorepo
 
-Escrow smart contract for P2P fiat-to-crypto trading on BSC (Binance Smart Chain).
+Production-oriented project structure for launch on web, Android, and iOS.
 
-## Overview
+## Structure
+- contracts/: Solidity contracts
+- scripts/: Hardhat deploy scripts
+- test/: Hardhat tests
+- backend/: API and transaction services (Phase 2)
+- frontend/: web app scaffold and plan (Phase 3)
+- realtime/: Socket.io service scaffold (Phase 4)
+- docs/: launch and operations docs
 
-The `P2PEscrow` contract handles:
-- Locking seller's USDT in escrow when a trade is created
-- Releasing funds to buyer when seller confirms fiat received
-- Dispute resolution by arbitrator (you)
-- Platform fee collection (0.5%)
-- User platform balances (custodial model)
-- Withdrawal to external wallets (Binance etc.)
+## Smart Contract Commands
+- npm install
+- npm run compile
+- npm test
+- npm run deploy:testnet
+- npm run deploy:mainnet
 
-## Trade Flow
+## Current Contract Rules
+- Disputes are allowed only after buyer marks payment as sent.
+- Auto-release is allowed 1 hour after paidAt.
+- Seller can still manually release while disputed.
 
-```
-1. Seller has USDT in platform balance
-2. Seller creates trade → USDT locked in escrow
-3. Buyer sends fiat (bank transfer / mobile money)
-4. Buyer clicks "I've Paid" → markAsPaid()
-5. Seller confirms fiat received → releaseFunds()
-6. USDT credited to buyer's platform balance
-7. Buyer can withdraw to Binance anytime
-```
+## Domain Plan
+- app.alterescrow.com for web UI
+- api.alterescrow.com for backend API
+- ws.alterescrow.com for Socket.io updates
 
-## Dispute Flow
+## Next Actions
+- Git push guide: `docs/github-push.md`
+- Railway deployment guide: `docs/railway-setup.md`
+- Launch checklist: `docs/launch-checklist.md`
 
-```
-Either party opens dispute → openDispute()
-Arbitrator reviews evidence in chat
-Arbitrator resolves → resolveDispute(winner, reason)
-```
-
-## Setup
-
+## Frontend Quickstart
 ```bash
+cd frontend
 npm install
-cp .env.example .env
-# Fill in your private key and addresses in .env
+npm run dev
 ```
 
-## Testing
-
+## Backend Quickstart
 ```bash
-npm test
+cd backend
+npm install
+npm run dev
 ```
 
-## Deploy to BSC Testnet (test first!)
-
+## Realtime Quickstart
 ```bash
-# Get free BNB testnet tokens from: https://testnet.binance.org/faucet-smart
-npm run deploy:testnet
+cd realtime
+npm install
+npm run dev
 ```
-
-## Deploy to BSC Mainnet (production)
-
-```bash
-# Make sure you have real BNB for gas (~$5-10 worth)
-npm run deploy:mainnet
-```
-
-## Contract Addresses
-
-| Network | Address |
-|---------|---------|
-| BSC Testnet | TBD after deployment |
-| BSC Mainnet | TBD after deployment |
-
-## USDT Addresses on BSC
-
-| Network | USDT Address |
-|---------|-------------|
-| BSC Testnet | `0x337610d27c682E347C9cD60BD4b3b107C9d34dDd` |
-| BSC Mainnet | `0x55d398326f99059fF775485246999027B3197955` |
-
-## Platform Fee
-
-Currently set to **0.5%** (50 basis points).
-- Collected from seller on each completed trade
-- Withdrawable by owner via `withdrawFees(tokenAddress)`
-
-## Security Notes
-
-- Contract uses no external dependencies (no OpenZeppelin) for simplicity
-- Private keys for custodial wallets are managed off-chain via KMS
-- Always test on BSC Testnet before mainnet
-- Consider a professional audit before handling large volumes
