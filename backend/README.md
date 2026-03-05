@@ -10,9 +10,16 @@
 ## Railway
 - Root Directory: `backend`
 - Start command: `npm run start`
-- Run one-off: `npm run migrate`
+- Startup auto-runs migration.
 
+## Custodial wallet model
+- Users get internal custody accounts (not self-custody private keys).
+- `wallets.custody_account_id` is the user-facing internal wallet identifier.
+- `treasury_address` points to your platform hot/treasury wallet.
+- `ledger_available` and `ledger_locked` store internal balances.
 
-Railway note: backend start script now auto-runs migration (
-pm run migrate && node src/server.js).
-
+## Env keys to set
+- `FRONTEND_URL`
+- `CORS_ORIGINS`
+- `CUSTODY_TREASURY_ADDRESS`
+- `ADMIN_EMAIL`

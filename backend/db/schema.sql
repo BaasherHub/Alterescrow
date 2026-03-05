@@ -10,9 +10,29 @@ CREATE TABLE IF NOT EXISTS wallets (
   id UUID PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES users(id),
   chain TEXT NOT NULL,
-  address TEXT UNIQUE NOT NULL,
+  address TEXT,
+  custody_account_id TEXT,
+  wallet_type TEXT NOT NULL DEFAULT 'CUSTODIAL',
+  treasury_address TEXT,
+  kms_key_ref TEXT,
+  ledger_available NUMERIC(38, 18) NOT NULL DEFAULT 0,
+  ledger_locked NUMERIC(38, 18) NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS custody_account_id TEXT;
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS wallet_type TEXT NOT NULL DEFAULT 'CUSTODIAL';
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS treasury_address TEXT;
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS kms_key_ref TEXT;
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS ledger_available NUMERIC(38, 18) NOT NULL DEFAULT 0;
+ALTER TABLE wallets ADD COLUMN IF NOT EXISTS ledger_locked NUMERIC(38, 18) NOT NULL DEFAULT 0;
+ALTER TABLE wallets ALTER COLUMN address DROP NOT NULL;
+
+UPDATE wallets
+SET custody_account_id = CONCAT('acct_', SUBSTRING(REPLACE(id::text, '-', '') FROM 1 FOR 24))
+WHERE custody_account_id IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS wallets_custody_account_id_uq ON wallets(custody_account_id);
 
 CREATE TABLE IF NOT EXISTS trades (
   id UUID PRIMARY KEY,

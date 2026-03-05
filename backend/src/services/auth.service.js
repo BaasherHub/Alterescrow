@@ -1,13 +1,16 @@
 const bcrypt = require("bcryptjs");
 const { v4: uuid } = require("uuid");
 const userRepo = require("../repositories/user.repo");
+const config = require("../config");
 
 async function register({ email, password, role = "user" }) {
   const normalized = email.toLowerCase();
   const existing = await userRepo.findByEmail(normalized);
   if (existing) throw new Error("Email already registered");
+
+  const effectiveRole = config.adminEmail && normalized === config.adminEmail ? "admin" : role;
   const passwordHash = await bcrypt.hash(password, 10);
-  return userRepo.createUser({ id: uuid(), email: normalized, passwordHash, role });
+  return userRepo.createUser({ id: uuid(), email: normalized, passwordHash, role: effectiveRole });
 }
 
 async function login({ email, password }) {
