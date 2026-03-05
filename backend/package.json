@@ -1,3 +1,4 @@
+"start": "npm run migrate && node src/server.js"
 {
   "name": "alterescrow-backend",
   "private": true,
