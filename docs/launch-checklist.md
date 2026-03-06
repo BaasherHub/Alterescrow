@@ -32,3 +32,15 @@
 - Use the same backend API and WS endpoints.
 - Keep private keys server-side only.
 - Use deep links to app.alterescrow.com trade pages.
+
+## Current Status
+- Frontend deployed on `www.alterescrow.com` with exchange-style P2P UI.
+- Backend deployed on Railway with startup migration enabled.
+- DNS for `www` and `api` is active.
+
+## Immediate Next Steps
+1. Wire frontend pages to live backend APIs.
+2. Replace placeholder order/chat data with real endpoints.
+3. Add authenticated order creation and payment confirmation flow.
+4. Enable admin dispute and withdrawal queues from backend routes.
+5. Add realtime order chat/status service if needed.

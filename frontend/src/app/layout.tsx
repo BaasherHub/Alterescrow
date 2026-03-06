@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "AlterEscrow",
-  description: "P2P escrow for USDT trades",
+  title: "AlterEscrow P2P",
+  description: "P2P marketplace inspired by leading exchanges",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -16,14 +16,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="container">
           <header>
-            <h1>AlterEscrow</h1>
-            <span className="pill">alterescrow.com</span>
-            <nav className="nav">
-              <Link href="/">Home</Link>
-              <Link href="/auth/login">Login</Link>
-              <Link href="/auth/signup">Signup</Link>
-              <Link href="/dashboard">Dashboard</Link>
-              <Link href="/trades">Trades</Link>
+            <div className="topbar">
+              <div className="brand">
+                <div className="brand-badge">A</div>
+                <div>
+                  <h1 style={{ margin: 0 }}>AlterEscrow P2P</h1>
+                  <span className="domain-chip">www.alterescrow.com</span>
+                </div>
+              </div>
+              <div className="top-actions">
+                <span className="dot" />
+                <span className="small">Live Beta</span>
+                <Link href="/auth/login" className="btn">Sign in</Link>
+                <Link href="/auth/signup" className="btn brand">Get Started</Link>
+              </div>
+            </div>
+            <nav className="menu">
+              <Link href="/">P2P Market</Link>
+              <Link href="/trades">My Orders</Link>
+              <Link href="/dashboard">Wallet</Link>
               <Link href="/withdraw">Withdraw</Link>
               <Link href="/admin">Admin</Link>
             </nav>
